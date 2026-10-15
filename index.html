@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bulls Burger House — Nador | Smashburgers & Homemade Buns</title>
+<meta name="description" content="Bulls Burger House in Nador, Morocco. Smashburgers, homemade buns, 100% fresh. Built different since day one.">
+<meta property="og:title" content="Bulls Burger House — Nador">
+<meta property="og:description" content="Smashburgers & Homemade Buns. 100% fresh — 100% flavor.">
+<meta property="og:type" content="restaurant">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --bone: #F5F0E8;
+    --bull: #C8311A;
+    --amber: #D4A853;
+    --muted: #8A857C;
+    --surface: #141414;
+    --font-display: 'Anton', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-serif: 'Instrument Serif', serif;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--ink);
+    color: var(--bone);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: var(--bull);
+    color: var(--bone);
+  }
+
+  /* ── LOADER ── */
+  .loader {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    transition: opacity 0.8s var(--ease-out), visibility 0.8s;
+  }
+  .loader.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .loader__bull {
+    width: 64px;
+    height: 64px;
+    opacity: 0;
+    animation: bullIn 0.8s var(--ease-out) 0.2s forwards;
+  }
+  @keyframes bullIn {
+    to { opacity: 1; }
+  }
+  .loader__text {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: bullIn 0.6s var(--ease-out) 0.6s forwards;
+  }
+
+  /* ── NAVIGATION ── */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.5s var(--ease-out), padding 0.5s var(--ease-out);
+    mix-blend-mode: difference;
+  }
+  .nav.scrolled {
+    mix-blend-mode: normal;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+  }
+  .nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--bone);
+  }
+  .nav__logo svg {
+    width: 36px;
+    height: 36px;
+  }
+  .nav__logo-text {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .nav__logo-text span {
+    display: block;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    color: var(--amber);
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+  .nav__links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+  }
+  .nav__links a {
+    text-decoration: none;
+    color: var(--bone);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--bull);
+    transition: width 0.4s var(--ease-out);
+  }
+  .nav__links a:hover::after { width: 100%; }
+  .nav__links a:hover { color: var(--bull); }
+
+  .nav__cta {
+    background: var(--bull);
+    color: var(--bone) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 0;
+    font-weight: 600 !important;
+    transition: background 0.3s, transform 0.3s var(--ease-out) !important;
+  }
+  .nav__cta::after { display: none !important; }
+  .nav__cta:hover {
+    background: #a82815 !important;
+    transform: translateY(-1px);
+  }
+
+  /* Mobile nav */
+  .nav__toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--bone);
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 101;
+  }
+  .nav__toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--bone);
+    margin: 5px 0;
+    transition: transform 0.4s var(--ease-out), opacity 0.3s;
+  }
+  .nav__toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav__toggle.active span:nth-child(2) { opacity: 0; }
+  .nav__toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease-out), visibility 0.5s;
+  }
+  .mobile-menu.open { opacity: 1; visibility: visible; }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    color: var(--bone);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--bull); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 2rem 4rem;
+    overflow: hidden;
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 40%, rgba(200,49,26,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(212,168,83,0.06) 0%, transparent 50%),
+      var(--ink);
+  }
+  .hero__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero__bull {
+    position: absolute;
+    right: -5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(300px, 45vw, 650px);
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  .hero__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 1s forwards;
+  }
+  .hero__tag::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--amber);
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 14vw, 12rem);
+    line-height: 0.85;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero__title .line {
+    display: block;
+    overflow: hidden;
+  }
+  .hero__title .line span {
+    display: block;
+    transform: translateY(110%);
+    animation: lineReveal 1s var(--ease-out) forwards;
+  }
+  .hero__title .line:nth-child(1) span { animation-delay: 1.2s; }
+  .hero__title .line:nth-child(2) span { animation-delay: 1.35s; color: var(--bull); }
+  .hero__title .line:nth-child(3) span { animation-delay: 1.5s; font-size: 0.45em; letter-spacing: 0.15em; color: var(--muted); }
+
+  @keyframes lineReveal {
+    to { transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero__sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 1.8s forwards;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 2s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-out);
+    font-family: var(--font-body);
+  }
+  .btn--primary {
+    background: var(--bull);
+    color: var(--bone);
+  }
+  .btn--primary:hover {
+    background: #a82815;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(200,49,26,0.3);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--bone);
+    border: 1px solid rgba(245,240,232,0.2);
+  }
+  .btn--ghost:hover {
+    border-color: var(--bone);
+    background: rgba(245,240,232,0.05);
+  }
+  .btn svg { width: 16px; height: 16px; }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--ease-out) 2.4s forwards;
+  }
+  .hero__scroll::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ── SECTION UTILITY ── */
+  .section {
+    padding: 8rem 2rem;
+    position: relative;
+  }
+  .section--dark { background: var(--ink); }
+  .section--surface { background: var(--surface); }
+  .section--bone { background: var(--bone); color: var(--ink); }
+
+  .section__label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--bull);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  .section__label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--bull);
+  }
+
+  .section__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+
+  .section__body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 600px;
+  }
+  .section--bone .section__body { color: #5A554D; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── STORY ── */
+  .story {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .story__visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .story__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+  }
+  .story__visual:hover img { transform: scale(1.04); }
+  .story__visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.6), transparent 50%);
+    pointer-events: none;
+  }
+  .story__badge {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bone);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .story__badge svg { width: 28px; height: 28px; }
+
+  .story__quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+    line-height: 1.5;
+    color: var(--bone);
+    margin-bottom: 2rem;
+    border-left: 2px solid var(--bull);
+    padding-left: 1.5rem;
+  }
+
+  .story__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,240,232,0.08);
+  }
+  .story__stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--bone);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .story__stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SIGNATURES ── */
+  .signatures__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+  .sig-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .sig-card:nth-child(2) { transform: translateY(3rem); }
+  .sig-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s var(--ease-out), filter 0.6s;
+    filter: brightness(0.7);
+  }
+  .sig-card:hover img {
+    transform: scale(1.06);
+    filter: brightness(0.9);
+  }
+  .sig-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 60%);
+  }
+  .sig-card__tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.75rem;
+  }
+  .sig-card__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--bone);
+    margin-bottom: 0.5rem;
+  }
+  .sig-card__desc {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.5;
+    max-width: 90%;
+  }
+
+  /* ── MENU ── */
+  .menu__tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+  }
+  .menu__tab {
+    background: transparent;
+    border: 1px solid rgba(245,240,232,0.12);
+    color: var(--muted);
+    padding: 0.7rem 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+    font-family: var(--font-body);
+  }
+  .menu__tab:hover { border-color: rgba(245,240,232,0.3); color: var(--bone); }
+  .menu__tab.active {
+    background: var(--bull);
+    border-color: var(--bull);
+    color: var(--bone);
+  }
+
+  .menu__panel { display: none; }
+  .menu__panel.active { display: block; animation: panelIn 0.5s var(--ease-out); }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .menu__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 3rem;
+  }
+  .menu__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+    gap: 1rem;
+  }
+  .menu__item-info { flex: 1; }
+  .menu__item-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bone);
+    margin-bottom: 0.3rem;
+  }
+  .menu__item-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .menu__item-price {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+
+  /* ── ATMOSPHERE ── */
+  .atmosphere__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+  .atmo-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .atmo-card--large {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    aspect-ratio: 3/4;
+  }
+  .atmo-card--small { aspect-ratio: 16/10; }
+  .atmo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+    filter: brightness(0.8);
+  }
+  .atmo-card:hover img { transform: scale(1.05); filter: brightness(1); }
+  .atmo-card__caption {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--bone);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+
+  /* ── GALLERY ── */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    margin-top: 4rem;
+  }
+  .gallery__item {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out), filter 0.5s;
+    filter: grayscale(0.3);
+  }
+  .gallery__item:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0);
+  }
+  .gallery__item:nth-child(1) { grid-column: 1 / 6; aspect-ratio: 16/10; }
+  .gallery__item:nth-child(2) { grid-column: 6 / 13; aspect-ratio: 16/10; }
+  .gallery__item:nth-child(3) { grid-column: 1 / 4; aspect-ratio: 3/4; }
+  .gallery__item:nth-child(4) { grid-column: 4 / 9; aspect-ratio: 3/4; }
+  .gallery__item:nth-child(5) { grid-column: 9 / 13; aspect-ratio: 3/4; }
+
+  /* ── VISIT ── */
+    /* ── VISIT (Updated for Light Background) ── */
+  .visit__block-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink); /* Changed from var(--bone) to dark */
+  }
+  .visit__block-text a {
+    color: var(--ink); /* Changed from var(--bone) to dark */
+    text-decoration: none;
+    border-bottom: 1px solid rgba(10,10,10,0.2); /* Changed to dark border */
+    transition: border-color 0.3s;
+  }
+  .visit__block-text a:hover { 
+    border-color: var(--bull); 
+  }
+
+  .visit__hours li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(10,10,10,0.08); /* Changed to dark border */
+    font-size: 0.9rem;
+  }
+  .visit__hours li span:first-child { 
+    color: #6B6660; /* Slightly darker muted gray for light bg readability */
+  }
+  .visit__hours li span:last-child { 
+    color: var(--ink); /* Changed from var(--bone) to dark */
+  }
+  
+  /* Optional: Fix the map iframe filter for light background */
+  .visit__map {
+    background: #E8E3DB;
+  }
+  .visit__map iframe {
+    filter: grayscale(1) contrast(1.1); /* Removed the invert() for light mode */
+  }
+  /* ── CTA / FOOTER ── */
+  .footer-cta {
+    text-align: center;
+    padding: 10rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .footer-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(200,49,26,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .footer-cta__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .footer-cta__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--bull);
+    font-weight: 400;
+  }
+  .footer-cta__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(245,240,232,0.06);
+    padding: 4rem 2rem 2rem;
+  }
+  .footer__grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+  .footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .footer__brand svg { width: 40px; height: 40px; }
+  .footer__brand-text {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .footer__tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 280px;
+    line-height: 1.6;
+  }
+  .footer__col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+  }
+  .footer__col ul {
+    list-style: none;
+  }
+  .footer__col li {
+    margin-bottom: 0.6rem;
+  }
+  .footer__col a {
+    color: var(--bone);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+  }
+  .footer__col a:hover { color: var(--bull); }
+
+  .footer__bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,240,232,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer__copy {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .footer__social {
+    display: flex;
+    gap: 1rem;
+  }
+  .footer__social a {
+    color: var(--muted);
+    transition: color 0.3s;
+    display: flex;
+  }
+  .footer__social a:hover { color: var(--bull); }
+  .footer__social svg { width: 18px; height: 18px; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav__links { display: none; }
+    .nav__toggle { display: block; }
+    .nav { mix-blend-mode: normal; }
+
+    .section { padding: 5rem 1.25rem; }
+
+    .hero { padding: 0 1.25rem 3rem; }
+    .hero__scroll { display: none; }
+
+    .story {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .story__stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .signatures__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .sig-card:nth-child(2) { transform: none; }
+
+    .menu__list { grid-template-columns: 1fr; gap: 0; }
+
+    .atmosphere__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .atmo-card--large { grid-column: 1; grid-row: auto; aspect-ratio: 4/5; }
+
+    .gallery {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .gallery__item:nth-child(1),
+    .gallery__item:nth-child(2),
+    .gallery__item:nth-child(3),
+    .gallery__item:nth-child(4),
+    .gallery__item:nth-child(5) {
+      grid-column: 1;
+      aspect-ratio: 4/3;
+    }
+
+    .visit {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__title { font-size: clamp(3rem, 18vw, 5rem); }
+    .hero__actions { flex-direction: column; align-items: flex-start; }
+    .btn { width: 100%; justify-content: center; }
+    .footer__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <svg class="loader__bull" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="48" stroke="#C8311A" stroke-width="2"/>
+    <path d="M50 15 C30 15 20 30 20 45 C20 65 35 80 50 85 C65 80 80 65 80 45 C80 30 70 15 50 15Z" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+    <path d="M38 35 C35 28 30 25 25 25 C28 30 30 35 32 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+    <path d="M62 35 C65 28 70 25 75 25 C72 30 70 35 68 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+    <circle cx="40" cy="48" r="3" fill="#C8311A"/>
+    <circle cx="60" cy="48" r="3" fill="#C8311A"/>
+    <path d="M42 62 Q50 68 58 62" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+  </svg>
+  <div class="loader__text">Bulls Burger House</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav__logo">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" stroke="#C8311A" stroke-width="2"/>
+      <path d="M50 15 C30 15 20 30 20 45 C20 65 35 80 50 85 C65 80 80 65 80 45 C80 30 70 15 50 15Z" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+      <path d="M38 35 C35 28 30 25 25 25 C28 30 30 35 32 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+      <path d="M62 35 C65 28 70 25 75 25 C72 30 70 35 68 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+      <circle cx="40" cy="48" r="3" fill="#C8311A"/>
+      <circle cx="60" cy="48" r="3" fill="#C8311A"/>
+      <path d="M42 62 Q50 68 58 62" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+    </svg>
+    <div class="nav__logo-text">Bulls<span>Burger House</span></div>
+  </a>
+  <ul class="nav__links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#signatures">Signatures</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#atmosphere">Atmosphere</a></li>
+    <li><a href="#visit">Visit</a></li>
+    <li><a href="https://wa.me/212663646496" class="nav__cta" target="_blank" rel="noopener">Order</a></li>
+  </ul>
+  <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#story">Story</a>
+  <a href="#signatures">Signatures</a>
+  <a href="#menu">Menu</a>
+  <a href="#atmosphere">Atmosphere</a>
+  <a href="#visit">Visit</a>
+  <a href="https://wa.me/212663646496" style="color:var(--bull)">Order Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grain"></div>
+  <svg class="hero__bull" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="48" stroke="#F5F0E8" stroke-width="0.5"/>
+    <path d="M50 10 C25 10 12 28 12 48 C12 72 32 90 50 95 C68 90 88 72 88 48 C88 28 75 10 50 10Z" fill="none" stroke="#F5F0E8" stroke-width="0.5"/>
+    <path d="M35 32 C30 22 22 18 15 18 C20 25 24 32 27 40" stroke="#F5F0E8" stroke-width="0.5" fill="none"/>
+    <path d="M65 32 C70 22 78 18 85 18 C80 25 76 32 73 40" stroke="#F5F0E8" stroke-width="0.5" fill="none"/>
+    <circle cx="38" cy="48" r="4" fill="#F5F0E8"/>
+    <circle cx="62" cy="48" r="4" fill="#F5F0E8"/>
+    <path d="M40 65 Q50 73 60 65" stroke="#F5F0E8" stroke-width="0.5" fill="none"/>
+  </svg>
+
+  <div class="hero__content">
+    <div class="hero__tag">Nador, Morocco — Since Day One</div>
+    <h1 class="hero__title">
+      <span class="line"><span>Built</span></span>
+      <span class="line"><span>Different.</span></span>
+      <span class="line"><span>Smashburgers &amp; Homemade Buns</span></span>
+    </h1>
+    <p class="hero__sub">100% fresh. 100% flavor. The burger that put Nador on the map.</p>
+    <div class="hero__actions">
+      <a href="#menu" class="btn btn--primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        Explore the Menu
+      </a>
+      <a href="https://wa.me/212663646496" class="btn btn--ghost" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Order on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__scroll">Scroll</div>
+</section>
+
+<!-- STORY -->
+<section class="section section--dark" id="story">
+  <div class="container">
+    <div class="story">
+      <div class="story__visual reveal">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80" alt="Bulls Burger House storefront and atmosphere" loading="lazy">
+        <div class="story__badge">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" stroke="#C8311A" stroke-width="2"/>
+            <path d="M50 15 C30 15 20 30 20 45 C20 65 35 80 50 85 C65 80 80 65 80 45 C80 30 70 15 50 15Z" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+            <path d="M38 35 C35 28 30 25 25 25 C28 30 30 35 32 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+            <path d="M62 35 C65 28 70 25 75 25 C72 30 70 35 68 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+            <circle cx="40" cy="48" r="3" fill="#C8311A"/>
+            <circle cx="60" cy="48" r="3" fill="#C8311A"/>
+            <path d="M42 62 Q50 68 58 62" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+          </svg>
+          Est. Nador
+        </div>
+      </div>
+      <div class="story__text">
+        <div class="section__label reveal">The Story</div>
+        <h2 class="section__title reveal reveal-delay-1">From<br>Nothing.</h2>
+        <blockquote class="story__quote reveal reveal-delay-2">
+          "Unbelievably soft buns hug perfectly spiced patties dripping with delicious sauces."
+        </blockquote>
+        <p class="section__body reveal reveal-delay-3">
+          Bulls Burger House didn't start with investors or a franchise playbook. It started with a simple conviction: a great burger deserves great bread, great meat, and zero compromise. In the heart of Nador, on Avenue El Farabi, a small kitchen began grinding its own meat, baking its own buns, and stacking burgers that made people stop and take notice.
+        </p>
+        <div class="story__stats reveal reveal-delay-3">
+          <div>
+            <div class="story__stat-num">97%</div>
+            <div class="story__stat-label">Customer Rating</div>
+          </div>
+          <div>
+            <div class="story__stat-num">100%</div>
+            <div class="story__stat-label">Fresh Daily</div>
+          </div>
+          <div>
+            <div class="story__stat-num">#1</div>
+            <div class="story__stat-label">Burger in Nador</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURES -->
+<section class="section section--surface" id="signatures">
+  <div class="container">
+    <div class="section__label reveal">What We're Known For</div>
+    <h2 class="section__title reveal reveal-delay-1">Signature<br>Experiences</h2>
+    <div class="signatures__grid">
+      <div class="sig-card reveal">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Smoky BBQ Smashburger" loading="lazy">
+        <div class="sig-card__overlay">
+          <div class="sig-card__tag">The Heavyweight</div>
+          <div class="sig-card__name">Smoky BBQ Smashburger</div>
+          <div class="sig-card__desc">Double smashed patty, crispy turkey bacon, cheddar, BBQ sauce, fried onions.</div>
+        </div>
+      </div>
+      <div class="sig-card reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=600&q=80" alt="Spicy Jalapeno Smashburger" loading="lazy">
+        <div class="sig-card__overlay">
+          <div class="sig-card__tag">The Firestarter</div>
+          <div class="sig-card__name">Spicy Jalapeno Smash</div>
+          <div class="sig-card__desc">Homemade jalapeños, cheddar, spicy chili sauce. Not for the faint-hearted.</div>
+        </div>
+      </div>
+      <div class="sig-card reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80" alt="Classic Smashburger" loading="lazy">
+        <div class="sig-card__overlay">
+          <div class="sig-card__tag">The Original</div>
+          <div class="sig-card__name">Classic Smash Double</div>
+          <div class="sig-card__desc">Double smashed patty, onions, cheddar, house sauce. Served with fries.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="section section--dark" id="menu">
+  <div class="container">
+    <div class="section__label reveal">The Menu</div>
+    <h2 class="section__title reveal reveal-delay-1">Eat With<br>Conviction.</h2>
+    <p class="section__body reveal reveal-delay-2" style="margin-bottom: 0;">
+      Every burger is built on homemade buns, freshly ground meat, and sauces made in-house. Prices in MAD.
+    </p>
+
+    <div class="menu__tabs reveal reveal-delay-2">
+      <button class="menu__tab active" data-panel="smash">Smashburgers</button>
+      <button class="menu__tab" data-panel="burgers">Burgers</button>
+      <button class="menu__tab" data-panel="chicken">Chicken</button>
+      <button class="menu__tab" data-panel="sides">Sides</button>
+      <button class="menu__tab" data-panel="combos">Combos</button>
+    </div>
+
+    <!-- SMASH -->
+    <div class="menu__panel active" id="panel-smash">
+      <div class="menu__list">
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Smoky BBQ Smashburger Double + Frites</div>
+            <div class="menu__item-desc">Juicy smashed beef patty, crispy turkey bacon, cheddar cheese, BBQ sauce, turkey bacon, mayonnaise and fried onions. Served with fries.</div>
+          </div>
+          <div class="menu__item-price">85 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Spicy Jalapeno Smashburger + Frites</div>
+            <div class="menu__item-desc">Juicy smashed beef patty, homemade jalapeños, cheddar cheese, and spicy chili sauce.</div>
+          </div>
+          <div class="menu__item-price">85 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Classic Smashburger Double + Frites</div>
+            <div class="menu__item-desc">Juicy smashed beef patty, onions, cheddar cheese, and house sauce. Served with fries.</div>
+          </div>
+          <div class="menu__item-price">80 MAD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BURGERS -->
+    <div class="menu__panel" id="panel-burgers">
+      <div class="menu__list">
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Champignon Burger</div>
+            <div class="menu__item-desc">150g beef, cheddar, garlic mushrooms, turkey ham, onions, salad, yogurt sauce.</div>
+          </div>
+          <div class="menu__item-price">87 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Guacamole Burger</div>
+            <div class="menu__item-desc">150g beef, cheese, avocado sauce, nachos, onions, salad.</div>
+          </div>
+          <div class="menu__item-price">87 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">BBQ Burger</div>
+            <div class="menu__item-desc">150g beef, turkey ham, cheddar, tomatoes, onions, salad, pickles, homemade BBQ sauce.</div>
+          </div>
+          <div class="menu__item-price">82 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Merguez Burger</div>
+            <div class="menu__item-desc">150g spicy beef, cheese, tomatoes, caramelized onions, salad, yogurt sauce.</div>
+          </div>
+          <div class="menu__item-price">82 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Adana Burger</div>
+            <div class="menu__item-desc">150g spicy beef, feta cheese, peppers, tomatoes, onions, salad, yogurt sauce.</div>
+          </div>
+          <div class="menu__item-price">82 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Cheeseburger</div>
+            <div class="menu__item-desc">150g beef, cheddar, tomatoes, onions, salad, pickles, Bulls house sauce.</div>
+          </div>
+          <div class="menu__item-price">77 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Chili Cheese Burger</div>
+            <div class="menu__item-desc">150g beef, cheese, tomatoes, onions, salad, pickles, chili.</div>
+          </div>
+          <div class="menu__item-price">77 MAD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHICKEN -->
+    <div class="menu__panel" id="panel-chicken">
+      <div class="menu__list">
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Crispy Chicken Burger</div>
+            <div class="menu__item-desc">Crispy chicken breast, cheese, tomatoes, onions, salad, pickles, Bulls house sauce.</div>
+          </div>
+          <div class="menu__item-price">77 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Sweet Chili Chicken Burger</div>
+            <div class="menu__item-desc">Crispy chicken breast, cheese, tomatoes, onions, salad, pickles, sweet chili mayo.</div>
+          </div>
+          <div class="menu__item-price">77 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Chicken BBQ Burger</div>
+            <div class="menu__item-desc">Chicken breast, turkey ham, cheese, tomatoes, onions, salad, pickles, homemade BBQ sauce.</div>
+          </div>
+          <div class="menu__item-price">82 MAD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDES -->
+    <div class="menu__panel" id="panel-sides">
+      <div class="menu__list">
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Chicken Nuggets 250g</div>
+            <div class="menu__item-desc">Crispy homemade chicken nuggets.</div>
+          </div>
+          <div class="menu__item-price">50 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Tzatziki Fries</div>
+            <div class="menu__item-desc">Homemade fries with Greek mezzé.</div>
+          </div>
+          <div class="menu__item-price">20 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Garlic Fries</div>
+            <div class="menu__item-desc">Homemade fries with garlic, onion and parsley marinade.</div>
+          </div>
+          <div class="menu__item-price">15 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">French Fries</div>
+            <div class="menu__item-desc">Classic homemade fries.</div>
+          </div>
+          <div class="menu__item-price">15 MAD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBOS -->
+    <div class="menu__panel" id="panel-combos">
+      <div class="menu__list">
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Combo Game Night</div>
+            <div class="menu__item-desc">Sweet Chili Chicken Burger + Cheese Burger + 2x Frites + Chicken Nuggets 250g + 2x Coca Cola.</div>
+          </div>
+          <div class="menu__item-price">243 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Combo Double Trouble</div>
+            <div class="menu__item-desc">Sweet Chilli Chicken Burger + BBQ Burger + 2x Frites + 2x Coca Cola.</div>
+          </div>
+          <div class="menu__item-price">196 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Combo Bulls Signature</div>
+            <div class="menu__item-desc">Crispy Chicken Burger + Chicken Nuggets 250g + Frites + Coca Cola.</div>
+          </div>
+          <div class="menu__item-price">149 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Combo Mini Feastables</div>
+            <div class="menu__item-desc">Mini Crispy Burger + Mini BBQ Burger + Frites + Coca Cola.</div>
+          </div>
+          <div class="menu__item-price">132 MAD</div>
+        </div>
+        <div class="menu__item">
+          <div class="menu__item-info">
+            <div class="menu__item-name">Combo Classic Bulls</div>
+            <div class="menu__item-desc">Cheese Burger + Frites + Coca Cola.</div>
+          </div>
+          <div class="menu__item-price">94 MAD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATMOSPHERE -->
+<section class="section section--surface" id="atmosphere">
+  <div class="container">
+    <div class="section__label reveal">The Space</div>
+    <h2 class="section__title reveal reveal-delay-1">Where It<br>Happens.</h2>
+    <div class="atmosphere__grid">
+      <div class="atmo-card atmo-card--large reveal">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Bulls Burger House interior atmosphere" loading="lazy">
+        <div class="atmo-card__caption">The dining room — intimate, warm, never rushed.</div>
+      </div>
+      <div class="atmo-card atmo-card--small reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80" alt="Open kitchen at Bulls Burger House" loading="lazy">
+        <div class="atmo-card__caption">Open kitchen. Nothing hidden.</div>
+      </div>
+      <div class="atmo-card atmo-card--small reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80" alt="Evening atmosphere at Bulls Burger House" loading="lazy">
+        <div class="atmo-card__caption">Evenings on Avenue El Farabi.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section section--dark" id="gallery">
+  <div class="container">
+    <div class="section__label reveal">The Food</div>
+    <h2 class="section__title reveal reveal-delay-1">Look<br>Closer.</h2>
+    <div class="gallery">
+      <div class="gallery__item reveal">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Smashburger close-up" loading="lazy">
+      </div>
+      <div class="gallery__item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&q=80" alt="Burger with fries" loading="lazy">
+      </div>
+      <div class="gallery__item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80" alt="Classic burger detail" loading="lazy">
+      </div>
+      <div class="gallery__item reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=600&q=80" alt="Spicy burger" loading="lazy">
+      </div>
+      <div class="gallery__item reveal reveal-delay-3">
+        <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&q=80" alt="Chicken burger" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="section section--bone" id="visit">
+  <div class="container">
+    <div class="section__label reveal" style="color: var(--bull);">Find Us</div>
+    <h2 class="section__title reveal reveal-delay-1" style="color: var(--ink);">Come<br>Hungry.</h2>
+    <div class="visit" style="margin-top: 3rem;">
+      <div class="visit__info">
+        <div class="visit__block reveal">
+          <div class="visit__block-title">Address</div>
+          <div class="visit__block-text">
+            Avenue El Farabi 5<br>
+            Nador, Morocco
+          </div>
+        </div>
+        <div class="visit__block reveal reveal-delay-1">
+          <div class="visit__block-title">Contact</div>
+          <div class="visit__block-text">
+            <a href="tel:+212663646496">+212 663 646 496</a><br>
+            <a href="https://wa.me/212663646496" target="_blank" rel="noopener">Order on WhatsApp</a>
+          </div>
+        </div>
+        <div class="visit__block reveal reveal-delay-2">
+          <div class="visit__block-title">Hours</div>
+          <ul class="visit__hours">
+            <li><span>Monday — Thursday</span><span>12:00 — 23:00</span></li>
+            <li><span>Friday — Saturday</span><span>12:00 — 00:00</span></li>
+            <li><span>Sunday</span><span>12:00 — 23:00</span></li>
+          </ul>
+          <p style="font-size: 0.75rem; color: #8A857C; margin-top: 0.75rem;">Hours may vary. Call ahead to confirm.</p>
+        </div>
+      </div>
+      <div class="visit__map reveal reveal-delay-1">
+        <iframe 
+          src="https://www.google.com/maps?q=Avenue+El+Farabi+5,+Nador,+Morocco&output=embed" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Bulls Burger House location on map">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="footer-cta section--dark">
+  <h2 class="footer-cta__title reveal">
+    Messy<br><em>is the point.</em>
+  </h2>
+  <p class="section__body reveal reveal-delay-1" style="margin: 0 auto 2.5rem; text-align: center;">
+    Stop scrolling. Start eating.
+  </p>
+  <div class="footer-cta__actions reveal reveal-delay-2">
+    <a href="https://wa.me/212663646496" class="btn btn--primary" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      Order on WhatsApp
+    </a>
+    <a href="tel:+212663646496" class="btn btn--ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      Call Us
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <div class="footer__brand">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+          <circle cx="50" cy="50" r="48" stroke="#C8311A" stroke-width="2"/>
+          <path d="M50 15 C30 15 20 30 20 45 C20 65 35 80 50 85 C65 80 80 65 80 45 C80 30 70 15 50 15Z" fill="none" stroke="#F5F0E8" stroke-width="1.5"/>
+          <path d="M38 35 C35 28 30 25 25 25 C28 30 30 35 32 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+          <path d="M62 35 C65 28 70 25 75 25 C72 30 70 35 68 40" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+          <circle cx="40" cy="48" r="3" fill="#C8311A"/>
+          <circle cx="60" cy="48" r="3" fill="#C8311A"/>
+          <path d="M42 62 Q50 68 58 62" stroke="#F5F0E8" stroke-width="1.5" fill="none"/>
+        </svg>
+        <div class="footer__brand-text">Bulls</div>
+      </div>
+      <p class="footer__tagline">Smashburgers & homemade buns. 100% fresh — 100% flavor. Nador, Morocco.</p>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Explore</div>
+      <ul>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#signatures">Signatures</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#atmosphere">Atmosphere</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Visit</div>
+      <ul>
+        <li><a href="#visit">Avenue El Farabi 5</a></li>
+        <li><a href="#visit">Nador, Morocco</a></li>
+        <li><a href="tel:+212663646496">+212 663 646 496</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Follow</div>
+      <ul>
+        <li><a href="https://www.instagram.com/bulls_burger_house/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/BullsBurgerHouse/" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://wa.me/212663646496" target="_blank" rel="noopener">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="footer__copy">&copy; 2026 Bulls Burger House. All rights reserved.</div>
+    <div class="footer__social">
+      <a href="https://www.instagram.com/bulls_burger_house/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/BullsBurgerHouse/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://wa.me/212663646496" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- JSON-LD STRUCTURED DATA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Bulls Burger House",
+  "description": "Smashburgers, homemade buns, 100% fresh ingredients. Nador's top burger destination.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Avenue El Farabi 5",
+    "addressLocality": "Nador",
+    "addressCountry": "MA"
+  },
+  "telephone": "+212663646496",
+  "servesCuisine": ["Burgers", "American", "Fast Food"],
+  "priceRange": "$$",
+  "url": "https://bullsburgerhouse.ma",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 35.168884,
+    "longitude": -2.928405
+  },
+  "openingHours": "Mo-Su 12:00-23:00",
+  "sameAs": [
+    "https://www.instagram.com/bulls_burger_house/",
+    "https://www.facebook.com/BullsBurgerHouse/"
+  ]
+}
+</script>
+
+<script>
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('done');
+  }, 1200);
+});
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── MOBILE MENU ──
+const toggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+toggle.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  toggle.classList.toggle('active');
+  toggle.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+// ── SCROLL REVEAL ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── MENU TABS ──
+document.querySelectorAll('.menu__tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.menu__tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu__panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+  });
+});
+
+// ── SMOOTH ANCHORS ──
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
